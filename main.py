@@ -23,7 +23,6 @@ load_dotenv()
 # 2) Set the OpenAI API key
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
-
 # Optional: Raise an error if key is missing
 if not openai.api_key:
     raise ValueError("API key not found. Ensure OPENAI_API_KEY is set in your .env file.")
@@ -220,7 +219,6 @@ def update_game_grid(word_search_grid, word, colours_counter):
                         COLOURS_LIST[colours_counter] + word_search_grid[r][start_index + i] + Style.RESET_ALL
                 )
 
-    # Return the grid if you want to use the updated version outside this function
     return word_search_grid
 
 
