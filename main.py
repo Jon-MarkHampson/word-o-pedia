@@ -204,9 +204,9 @@ def update_game_grid(word_search_grid, word, colours_counter):
     word_length = len(word)
     grid_size = len(word_search_grid)
 
-    for r in range(grid_size):
+    for row in range(grid_size):
         # Convert the row (list of characters) into a string
-        row_str = "".join(word_search_grid[r])
+        row_str = "".join(word_search_grid[row])
 
         # Find the start index of the word in the row string
         start_index = row_str.find(word)
