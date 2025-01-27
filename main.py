@@ -215,8 +215,8 @@ def update_game_grid(word_search_grid, word, colours_counter):
         if start_index != -1:
             for i in range(word_length):
                 # Wrap each character with the desired color
-                word_search_grid[r][start_index + i] = (
-                        COLOURS_LIST[colours_counter] + word_search_grid[r][start_index + i] + Style.RESET_ALL
+                word_search_grid[row][start_index + i] = (
+                        COLOURS_LIST[colours_counter] + word_search_grid[row][start_index + i] + Style.RESET_ALL
                 )
 
     return word_search_grid
