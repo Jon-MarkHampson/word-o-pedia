@@ -83,20 +83,47 @@ def place_word(grid, word, difficulty):
     placed = False
 
     while not placed:
-        # For now, only horizontal
-        row = random.randint(0, grid_size - 1)
-        col = random.randint(0, grid_size - word_length)
-
-        can_place = True
-        for i in range(word_length):
-            if grid[row][col + i] not in ("*", word[i]):
-                can_place = False
-                break
-
-        if can_place:
+        # Randomly choose direction: 0 = horizontal, 1 = vertical, 2 = diagonal
+        # direction = random.choice([0, 1, 2])
+        direction = 0
+        if direction == 0:  # Horizontal
+            row = random.randint(0, grid_size - 1)
+            col = random.randint(0, grid_size - word_length)
+            #     if all(grid[row + i][col] in ('*', word[i]) for i in range(word_length)):
+            can_place = True
             for i in range(word_length):
-                grid[row][col + i] = word[i]
-            placed = True
+                if grid[row][col + i] not in ("*", word[i]):
+                    can_place = False
+                    break
+
+            if can_place:
+                for i in range(word_length):
+                    grid[row][col + i] = word[i]
+                placed = True
+
+            # elif direction == 1:  # Vertical
+            #     row = random.randint(0, grid_size - word_length)
+            #     col = random.randint(0, grid_size - 1)
+            #     if all(grid[row + i][col] in ('*', word[i]) for i in range(word_length)):
+            #         for i in range(word_length):
+            #             grid[row + i][col] = word[i]
+            #         placed = True
+            # elif direction == 2:  # Diagonal
+            #     row = random.randint(0, grid_size - word_length)
+            #     col = random.randint(0, grid_size - word_length)
+            #     if all(grid[row + i][col + i] in ('*', word[i]) for i in range(word_length)):
+            #         for i in range(word_length):
+            #             grid[row + i][col + i] = word[i]
+            #         placed = True
+
+def fill_remaining_placeholders_with_random_letters(grid, difficulty):
+    """ Fill remaining empty spaces with random letters """
+    grid_size = difficulty[0]
+    for i in range(grid_size):
+        for j in range(grid_size):
+            if grid[i][j] == '*':
+                grid[i][j] = random.choice(string.ascii_uppercase)
+    return grid
 
 def print_game_grid(word_search_grid):
     """
