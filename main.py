@@ -10,9 +10,9 @@ from dotenv import load_dotenv
 import openai
 
 # Define global variable Colours List from Colorama colours
-COLOURS_LIST = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN, Fore.WHITE]
+COLOURS_LIST = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN]
 
-# Difficulty levels
+# Difficulty levels - (Grid size, number of words)
 EASY = (7, 5)
 MEDIUM = (10, 7)
 HARD = (15, 10)
@@ -52,7 +52,7 @@ def get_game_words(links, difficulty):
     ]
 
     # Step size
-    step = len(alphabetic_links) // num_words if len(alphabetic_links) > num_words else 1
+    step = len(alphabetic_links) // num_words if len(alphabetic_links) > num_words else 1 # randomise the start index
 
     # Take every nth word, limited by num_words
     game_words = alphabetic_links[::step][:num_words]
@@ -70,13 +70,13 @@ def initialise_grid(game_words, difficulty):
         place_word(grid, word, difficulty)
 
     # If you want to fill remaining '*' with random letters, do:
-    # grid = fill_remaining_placeholders_with_random_letters(grid, difficulty)
+    grid = fill_remaining_placeholders_with_random_letters(grid, difficulty)
     return grid
 
 
 def fill_grid_with_placeholders(difficulty):
     """
-    Creates a grid with '*' placeholders.
+    Creates a grid with '' placeholders.
     """
     grid_size = difficulty[0]
     return [["*" for _ in range(grid_size)] for _ in range(grid_size)]
@@ -235,24 +235,26 @@ def main():
     game_words = get_game_words(links_list, difficulty)
     word_search_grid = initialise_grid(game_words, difficulty)
 
-    while found_words_counter < len(game_words):
+    while found_words_counter < difficulty[1]:
         print_game_grid(word_search_grid)  # Prints out the word search grid
 
         want_hint = input("\nWould you like a hint? (Y / N): ").strip().lower()
         if want_hint in {"y", "yes", "yeah"}:
-            # print(f"\n{get_hint_about_word(game_words[0])}") UNCOMMENT THIS AFTER DEMO!!!!!
-            long_summary, short_summary = get_hint_about_word(game_words[0])
-            print(long_summary, "\n")  # DELETE THESE AFTER DEMO
-            print(short_summary, "\n")  # DELETE THESE AFTER DEMO
+            print(f"\n{get_hint_about_word(game_words[0])}") # UNCOMMENT THIS AFTER DEMO!!!!!
+            # long_summary, short_summary = get_hint_about_word(game_words[0])
+            # print(long_summary, "\n")  # DELETE THESE AFTER DEMO
+            # print(short_summary, "\n")  # DELETE THESE AFTER DEMO
         # print(game_words)
         user_guess = input("\nEnter a found word: ").strip().capitalize()
         if user_guess in game_words:
             print("\nWHOOOOOOOOO! You found " + COLOURS_LIST[colours_counter] + user_guess + Style.RESET_ALL + "\n")
             word_search_grid = update_game_grid(word_search_grid, user_guess, colours_counter)
             colours_counter += 1  # Update colour counter so next guessed word gets a different colour
+            if colours_counter == len(COLOURS_LIST):
+                colours_counter = 0
             found_words_counter += 1  # Update the found words counter
         else:
-            print(f"\n{user_guess} isn't one of the words we are looking for!\n")
+            print(Fore.RED + user_guess + Style.RESET_ALL + " isn't one of the words we are looking for!\n")
 
     print(f"You found all {len(game_words)} words in ***** mins:secs")
 

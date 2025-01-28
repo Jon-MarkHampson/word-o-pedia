@@ -1,5 +1,22 @@
 # Wikipedia Game Challenge - programming plan example
 
+Collaborators can install all required libraries with:
+- 1. Create a Virtual Environment
+Using a virtual environment ensures that dependencies are isolated and don't interfere with system Python. It also makes it easier for others to reproduce your setup.
+Run the following commands in the terminal within your project directory:
+python3 -m venv venv
+This creates a virtual environment in a folder named venv.
+- 2. Activate the Virtual Environment
+Activate it to ensure you install libraries locally within the project:
+source venv/bin/activate
+Once activated, you should see (venv) in your terminal prompt.
+- 3. Install the Required Libraries
+Install the missing libraries using pip:
+-  pip install -r requirements.txt
+
+ls\
+# Wikipedia Game Challenge - programming plan example
+
 ## Game goal and description:
 
 ### Basic Game MVP :
