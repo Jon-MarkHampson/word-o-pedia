@@ -14,7 +14,7 @@ Once activated, you should see (venv) in your terminal prompt.
 Install the missing libraries using pip:
 -  pip install -r requirements.txt
 
-ls\
+
 # Wikipedia Game Challenge - programming plan example
 
 ## Game goal and description:
