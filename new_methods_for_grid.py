@@ -18,23 +18,23 @@ def place_words_on_grid(grid, words):
             # Try placing the word
             if try_place_word(grid, word, row, col, horizontal):
                 # If successful, gather and store the coordinates for this word
-                coords = []
+                coordinates = [] # Create an empty list to stor the coordinates
                 length = len(word)
                 if horizontal:
                     for i in range(length):
-                        coords.append((row, col + i))
+                        coordinates.append((row, col + i))
                 else:  # vertical
                     for i in range(length):
-                        coords.append((row + i, col))
+                        coordinates.append((row + i, col))
 
-                words_positions[word] = coords
+                words_positions[word] = coordinates # add the word coordinates to each word
                 placed = True
                 break
 
         if not placed:
             print(f"Warning: Could not place the word '{word}' on the grid.")
 
-    return grid, words_positions
+    return grid, words_positions # returning a tuple
 
 def try_place_word(grid, word, row, col, horizontal):
     """
@@ -59,23 +59,23 @@ def try_place_word(grid, word, row, col, horizontal):
     return True
 
 
-def update_game_grid(word_search_grid, word, colours_counter, words_positions):
+def update_game_grid(grid, word, colours_counter, words_positions):
     # 'word' is uppercase in the puzzle
     word = word.upper()
 
     # Retrieve the list of coordinates from the dictionary
-    coords = words_positions.get(word, [])
+    coordinates = words_positions.get(word, [])
 
     # Color each character at those coordinates
-    for (r, c) in coords:
+    for (r, c) in coordinates:
         original_char = word_search_grid[r][c]
         # Remove any existing color codes if you prefer, or just color over it
         # For safety, remove ANSI codes so we don't get nested codes
         ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
         plain_char = ansi_escape.sub('', original_char)
 
-        word_search_grid[r][c] = (COLOURS_LIST[colours_counter]
+        grid[r][c] = (COLOURS_LIST[colours_counter]
                                   + plain_char
                                   + Style.RESET_ALL)
 
-    return word_search_grid
+    return grid
